@@ -1,0 +1,32 @@
+mkdir /var/tmp/ga87puy/exec/
+cd /var/tmp/ga87puy/exec/
+export PATH=$(pwd)/bin/:$PATH
+source venv/bin/activate
+pip install executorch
+pip install torchvision
+python3 script1.py
+python3 script1_run.py
+pip uninstall executorch
+wget https://github.com/Kitware/CMake/releases/download/v3.31.11/cmake-3.31.11-linux-x86_64.sh
+chmod +x cmake-3.31.11-linux-x86_64.sh
+./cmake-3.31.11-linux-x86_64.sh --skip-license --prefix $(pwd)/cmake
+wget https://github.com/PhilippvK/riscv-tools/releases/download/gnu_2024.09.03/riscv32-unknown-elf-ubuntu-24.04-rv32gc_ilp32d.tar.xz
+tar xvf riscv32-unknown-elf-ubuntu-24.04-rv32gc_ilp32d.tar.xz
+git clone -b viable/strict https://github.com/pytorch/executorch
+cd /var/tmp/ga87puy/exec/executorch/
+git submodule update --init .
+# git submodule update --init --recursive .
+
+cmake -B cmake-out-riscv32 --preset riscv32-baremetal
+cmake --build cmake-out-riscv32 -j8
+cmake --install cmake-out-riscv32
+cd /var/tmp/ga87puy/exec/executorch/examples/riscv/executor_runner/
+cmake                                                    \
+    -DCMAKE_TOOLCHAIN_FILE=$(pwd)/../riscv32-gcc-toolchain.cmake\
+    -DTARGET_CPU=generic-riscv32\
+    -B build\
+    -DET_DIR_PATH:PATH=/var/tmp/ga87puy/exec/executorch/      \
+    -DET_BUILD_DIR_PATH:PATH=/var/tmp/ga87puy/exec/executorch/cmake-out-riscv32      \
+    -DET_PTE_FILE_PATH:PATH=/var/tmp/ga87puy/exec/model.pte \
+    -DPYTHON_EXECUTABLE=$(which python3)
+cmake --build build -- riscv_executor_runner
