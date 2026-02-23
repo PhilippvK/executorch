@@ -210,7 +210,12 @@ Error resize_tensor_impl(
     return torch::executor::Error::NotSupported;
   }
   // Will panic on failure.
-  impl->set_sizes_contiguous(new_sizes);
+  // impl->set_sizes_contiguous(new_sizes);
+  // Convert new_sizes to int64_t for set_sizes_contiguous
+  std::vector<int64_t> new_sizes_64(new_sizes.begin(), new_sizes.end());
+
+  // Resize tensor safely
+  impl->set_sizes_contiguous(new_sizes_64);
   return torch::executor::Error::Ok;
 }
 
