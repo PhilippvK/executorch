@@ -54,7 +54,10 @@ def install_requirements(use_pytorch_nightly):
         (
             f"torch=={TORCH_VERSION}.{NIGHTLY_VERSION}"
             if use_pytorch_nightly
-            else "torch"
+            # else "torch==2.11.0.dev20251225+cpu"
+            # else "torch==2.11.0.dev20260215+cpu"
+            # else "torch==2.11.0.dev20251231+cpu"
+            else "torch==2.11.0.dev20251231+cpu"
         ),
     ]
 

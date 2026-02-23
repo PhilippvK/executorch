@@ -176,6 +176,7 @@ def determine_torch_url(torch_nightly_url_base):
 
     try:
         cuda_version = _get_cuda_version()
+        assert False
     except Exception as err:
         print(f"CUDA detection failed ({err}), using CPU-only PyTorch")
         return f"{torch_nightly_url_base}/cpu"
