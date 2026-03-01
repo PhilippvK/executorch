@@ -187,6 +187,7 @@ def determine_torch_url(torch_nightly_url_base):
     # Get appropriate PyTorch CUDA URL
     torch_url = _get_pytorch_cuda_url(cuda_version, torch_nightly_url_base)
     print(f"Using PyTorch URL: {torch_url}")
+    input("000")
 
     return torch_url
 

@@ -45,6 +45,8 @@ def install_requirements(use_pytorch_nightly):
 
     # Determine the appropriate PyTorch URL based on CUDA delegate status
     torch_url = determine_torch_url(TORCH_NIGHTLY_URL_BASE)
+    print("torch_url", torch_url)
+    input("555")
 
     # pip packages needed by exir.
     TORCH_PACKAGE = [
@@ -64,8 +66,7 @@ def install_requirements(use_pytorch_nightly):
     # Install the requirements for core ExecuTorch package.
     # `--extra-index-url` tells pip to look for package
     # versions on the provided URL if they aren't available on the default URL.
-    subprocess.run(
-        [
+    args = [
             sys.executable,
             "-m",
             "pip",
@@ -74,8 +75,14 @@ def install_requirements(use_pytorch_nightly):
             "requirements-dev.txt",
             *TORCH_PACKAGE,
             "--extra-index-url",
+            # "--index-url",
             torch_url,
-        ],
+            "--no-cache",
+        ]
+    print(">", " ".join(args))
+    input("666")
+    subprocess.run(
+        args,
         check=True,
     )
 
@@ -109,6 +116,7 @@ def install_requirements(use_pytorch_nightly):
             # Without --no-build-isolation, setup.py can't find the torch module.
             "--no-build-isolation",
             *LOCAL_REQUIREMENTS,
+            "--no-cache",
         ],
         env=new_env,
         check=True,
