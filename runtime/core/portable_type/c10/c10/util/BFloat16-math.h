@@ -2,6 +2,7 @@
 
 #include <c10/util/BFloat16.h>
 #include <c10/util/Half.h>
+#include <math.h>
 
 C10_CLANG_DIAGNOSTIC_PUSH()
 #if C10_CLANG_HAS_WARNING("-Wimplicit-float-conversion")
@@ -49,19 +50,24 @@ template <
     typename T,
     typename std::enable_if_t<c10::is_reduced_floating_point_v<T>, int> = 0>
 inline T atanh(T a) {
-  return std::atanh(float(a));
+  // return static_cast<T>(std::atanh(static_cast<double>(a)));
+  return static_cast<T>(::atanh(static_cast<double>(a)));
 }
+
+
 template <
     typename T,
     typename std::enable_if_t<c10::is_reduced_floating_point_v<T>, int> = 0>
 inline T erf(T a) {
-  return std::erf(float(a));
+  // return std::erf(float(a));
+  return static_cast<T>(::erf(static_cast<double>(a)));
 }
 template <
     typename T,
     typename std::enable_if_t<c10::is_reduced_floating_point_v<T>, int> = 0>
 inline T erfc(T a) {
-  return std::erfc(float(a));
+  // return std::erfc(float(a));
+  return static_cast<T>(::erfc(static_cast<double>(a)));
 }
 template <
     typename T,
@@ -73,7 +79,8 @@ template <
     typename T,
     typename std::enable_if_t<c10::is_reduced_floating_point_v<T>, int> = 0>
 inline T expm1(T a) {
-  return std::expm1(float(a));
+  // return std::expm1(float(a));
+  return static_cast<T>(::expm1(static_cast<double>(a)));
 }
 template <
     typename T,
@@ -97,13 +104,15 @@ template <
     typename T,
     typename std::enable_if_t<c10::is_reduced_floating_point_v<T>, int> = 0>
 inline T log1p(T a) {
-  return std::log1p(float(a));
+  // return std::log1p(float(a));
+  return static_cast<T>(::log1p(static_cast<double>(a)));
 }
 template <
     typename T,
     typename std::enable_if_t<c10::is_reduced_floating_point_v<T>, int> = 0>
 inline T log2(T a) {
-  return std::log2(float(a));
+  // return std::log2(float(a));
+  return static_cast<T>(::log2(static_cast<double>(a)));
 }
 template <
     typename T,
@@ -127,7 +136,8 @@ template <
     typename T,
     typename std::enable_if_t<c10::is_reduced_floating_point_v<T>, int> = 0>
 inline T nearbyint(T a) {
-  return std::nearbyint(float(a));
+  // return std::nearbyint(float(a));
+  return static_cast<T>(::nearbyint(static_cast<double>(a)));
 }
 template <
     typename T,
@@ -163,13 +173,15 @@ template <
     typename T,
     typename std::enable_if_t<c10::is_reduced_floating_point_v<T>, int> = 0>
 inline T trunc(T a) {
-  return std::trunc(float(a));
+  // return std::trunc(float(a));
+  return static_cast<T>(::trunc(static_cast<double>(a)));
 }
 template <
     typename T,
     typename std::enable_if_t<c10::is_reduced_floating_point_v<T>, int> = 0>
 inline T lgamma(T a) {
-  return std::lgamma(float(a));
+  // return std::lgamma(float(a));
+  return static_cast<T>(::lgamma(static_cast<double>(a)));
 }
 template <
     typename T,

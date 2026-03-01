@@ -352,7 +352,7 @@ C10_HOST_DEVICE inline c10::complex<T> expm1(const c10::complex<T>& z) {
   T x = z.real();
   T y = z.imag();
   T a = std::sin(y / 2);
-  T er = std::expm1(x) * std::cos(y) - T(2) * a * a;
+  T er = ::expm1(x) * std::cos(y) - T(2) * a * a;
   T ei = std::exp(x) * std::sin(y);
   return {er, ei};
 }
